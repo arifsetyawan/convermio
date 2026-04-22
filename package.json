@@ -1,16 +1,16 @@
 {
-  "name": "currency-pair-calculator",
+  "name": "convermio",
   "version": "1.0.0",
   "description": "A TypeScript currency pair amount calculator with support for different rates and arrangements",
-  "main": "currency-calculator.js",
-  "types": "currency-calculator.d.ts",
+  "main": "dist/currency-calculator.js",
+  "types": "dist/currency-calculator.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "demo": "tsc && node currency-calculator.js",
-    "clean": "rm -f *.js *.d.ts"
+    "demo": "npm run build && node dist/currency-calculator.js",
+    "clean": "rm -rf dist"
   },
   "keywords": [
     "currency",

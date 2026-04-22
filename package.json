@@ -10,8 +10,29 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "demo": "npm run build && node dist/currency-calculator.js",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build && npm test",
+    "publish:dry": "npm publish --dry-run",
+    "release:patch": "bash scripts/publish.sh patch",
+    "release:minor": "bash scripts/publish.sh minor",
+    "release:major": "bash scripts/publish.sh major"
   },
+  "files": [
+    "dist/currency-calculator.js",
+    "dist/currency-calculator.js.map",
+    "dist/currency-calculator.d.ts",
+    "dist/currency-calculator.d.ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/arifsetyawan/convermio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arifsetyawan/convermio/issues"
+  },
+  "homepage": "https://github.com/arifsetyawan/convermio#readme",
   "keywords": [
     "currency",
     "exchange",
@@ -20,7 +41,7 @@
     "cryptocurrency",
     "typescript"
   ],
-  "author": "",
+  "author": "Arif Setyawan <me@arifsetyawan.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^30.0.0",

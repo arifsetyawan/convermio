@@ -1,5 +1,9 @@
 # Currency Pair Amount Calculator
 
+[![CI](https://github.com/arifsetyawan/convermio/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/arifsetyawan/convermio/actions/workflows/ci.yml)
+[![Security](https://github.com/arifsetyawan/convermio/actions/workflows/security.yml/badge.svg?branch=main)](https://github.com/arifsetyawan/convermio/actions/workflows/security.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 A comprehensive TypeScript program for calculating currency pair amounts with support for different base/counter arrangements, fixed/counter positions, and varying exchange rates.
 
 ## Features

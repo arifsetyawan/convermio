@@ -1,0 +1,75 @@
+name: Publish
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      dist-tag:
+        description: 'npm dist-tag (latest, next, beta, ...)'
+        required: false
+        default: 'latest'
+      dry-run:
+        description: 'Dry run (do not actually publish)'
+        type: boolean
+        required: false
+        default: false
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+    environment:
+      name: npm-publish
+      url: https://www.npmjs.com/package/convermio
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify package version matches release tag
+        if: github.event_name == 'release'
+        run: |
+          PKG_VERSION="v$(node -p "require('./package.json').version")"
+          TAG="${GITHUB_REF_NAME}"
+          if [ "$PKG_VERSION" != "$TAG" ]; then
+            echo "::error::package.json version ($PKG_VERSION) does not match release tag ($TAG)"
+            exit 1
+          fi
+          echo "Version check passed: $PKG_VERSION == $TAG"
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test -- --ci
+
+      - name: Publish dry-run preview
+        run: npm publish --dry-run --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish to npm
+        if: ${{ github.event_name == 'release' || inputs.dry-run != true }}
+        run: npm publish --access public --provenance --tag "${DIST_TAG:-latest}"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          DIST_TAG: ${{ inputs.dist-tag }}

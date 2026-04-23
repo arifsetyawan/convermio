@@ -1,6 +1,6 @@
 {
   "name": "convermio",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A TypeScript currency pair amount calculator with support for different rates and arrangements",
   "main": "dist/currency-calculator.js",
   "types": "dist/currency-calculator.d.ts",
